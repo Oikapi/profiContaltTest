@@ -3,4 +3,12 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px;
+    min-width: 140px;
+    max-width: 180px;
+    box-sizing: border-box;
+}
+
+.disable_input {
+    border: none;
+    background: transparent;
 }

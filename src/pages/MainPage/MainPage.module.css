@@ -10,10 +10,3 @@
     align-items: center;
     border-right: 1px solid black;
 }
-
-.main_page_base_card h1 {}
-
-.main_page_cards_slider {
-    display: flex;
-    flex-direction: row;
-}

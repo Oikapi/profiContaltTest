@@ -1,0 +1,32 @@
+.slider {
+    display: flex;
+    flex-direction: row;
+    overflow: scroll;
+    position: relative;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    align-items: center;
+}
+
+.slider_btn {
+    display: flex;
+    position: sticky;
+    top: 20px;
+    background-color: transparent;
+    border: none;
+    width: fit-content;
+    padding: 0px;
+}
+
+.slider_btn:hover {
+    border-radius: 30%;
+    background-color: #e6dcdc;
+}
+
+.btn_left {
+    right: calc(100% - 18px);
+}
+
+.btn_right {
+    right: 10px;
+}
