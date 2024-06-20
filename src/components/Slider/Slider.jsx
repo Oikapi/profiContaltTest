@@ -8,21 +8,14 @@ function Slider({ list, renderItem }) {
     const leftButton = useRef(null);
     const rightButton = useRef(null);
 
-    const handleScroll = () => {
-        if (scrollableRef.current) {
-            const { scrollLeft, scrollWidth, clientWidth } = scrollableRef.current;
-            scrollLeft > 0 ? leftButton.current.style.visibility = "visible" : leftButton.current.style.visibility = "hidden"
-            scrollLeft + clientWidth < scrollWidth ? rightButton.current.style.visibility = "visible" : rightButton.current.style.visibility = "hidden"
-        }
-    };
-
-
     const handlePrevButtonClick = () => {
         if (scrollableRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = scrollableRef.current;
             const containerRect = scrollableRef.current.getBoundingClientRect();
             const children = Array.from(scrollableRef.current.children)
             const firstLevelDivs = children.filter(child => child.tagName.toLowerCase() === 'div');
-
+            scrollWidth > clientWidth ? rightButton.current.style.visibility = "visible" : rightButton.current.style.visibility = "hidden"
+            scrollLeft > firstLevelDivs[0].getBoundingClientRect().width ? leftButton.current.style.visibility = "visible" : leftButton.current.style.visibility = "hidden"
             for (let el of firstLevelDivs.reverse()) {
                 const elimentRect = el.getBoundingClientRect();
                 if (!(elimentRect.left >= containerRect.left)) {
@@ -38,36 +31,27 @@ function Slider({ list, renderItem }) {
             const containerRect = scrollableRef.current.getBoundingClientRect();
             const children = Array.from(scrollableRef.current.children)
             const firstLevelDivs = children.filter(child => child.tagName.toLowerCase() === 'div');
+            const { scrollLeft, scrollWidth } = scrollableRef.current;
 
             for (let el of firstLevelDivs) {
                 const elimentRect = el.getBoundingClientRect();
-                if (elimentRect.right + elimentRect.width > containerRect.width) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'center' })
+                console.log(elimentRect.right, scrollLeft, scrollWidth, elimentRect.width)
+                if (elimentRect.right >= containerRect.right) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
+                    scrollLeft >= 0 ? leftButton.current.style.visibility = "visible" : leftButton.current.style.visibility = "hidden"
+                    elimentRect.right + scrollLeft < scrollWidth + elimentRect.width ? rightButton.current.style.visibility = "visible" : rightButton.current.style.visibility = "hidden"
                     break;
                 }
             }
         }
     };
 
-    useEffect(() => {
-        const scrollableElement = scrollableRef.current;
-        leftButton.current.style.visibility = "hidden"
-        rightButton.current.style.visibility = "hidden"
-        if (scrollableElement) {
-            scrollableElement.addEventListener('scroll', handleScroll);
-        }
-
-        return () => {
-            if (scrollableElement) {
-                scrollableElement.removeEventListener('scroll', handleScroll);
-            }
-        };
-    }, []);
 
     useEffect(() => {
-        const { scrollWidth, clientWidth } = scrollableRef.current;
-        if (scrollWidth > clientWidth) {
-            rightButton.current.style.visibility = "visible"
+        if (scrollableRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = scrollableRef.current;
+            scrollLeft > clientWidth / list.length ? leftButton.current.style.visibility = "visible" : leftButton.current.style.visibility = "hidden"
+            scrollLeft + clientWidth < scrollWidth ? rightButton.current.style.visibility = "visible" : rightButton.current.style.visibility = "hidden"
         }
     }, [list])
 
