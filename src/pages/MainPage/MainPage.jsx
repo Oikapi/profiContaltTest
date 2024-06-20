@@ -65,7 +65,7 @@ function MainPage() {
                 <div className={styles.main_page_base_card}>
                     <h1>Base card</h1>
                     {cardArr.filter(el => el.isBased).map(el =>
-                        <Card onBase={setBased} id={el.id} text={el.text} onDelete={deleteItem} />
+                        <Card onBase={setBased} id={el.id} text={el.text} onDelete={deleteItem} onChangeValue={onChangeCardValue} />
                     )}
                 </div>
                 <Slider list={cardArr.filter(el => !el.isBased)} renderItem={renderCard} />
